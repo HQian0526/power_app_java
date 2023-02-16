@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="powertool.demo.Mapper.HomeMapper">
+
+    <!--查询最近一次签到时间-->
+    <select id="userSign" parameterType="Int" resultType="UserSignEntity">
+        select * from user_sign where userId = #{userId};
+    </select>
+
+    <!--向user_sign表添加签到记录-->
+    <insert id="addUserSign" parameterType="UserSignEntity">
+        insert into user_sign(userId, series_days, continuity_days, last_sign, sign_num) values (#{userId}, #{seriesDays}, #{continuityDays}, #{lastSign}, #{signNum})
+    </insert>
+
+    <!--向user_sign表更新签到记录-->
+    <update id="updateUserSign" parameterType="UserSignEntity">
+        update user_sign set series_days = #{seriesDays}+1, continuity_days = #{continuityDays}, last_sign = #{lastSign}, sign_num = #{signNum} where userId = #{userId}
+    </update>
+
+    <!--向user_sign_log表更新签到记录-->
+    <insert id="addSignLog" parameterType="UserSignLogEntity">
+        insert into user_sign_log(userId, sign_time, sign_type, create_time) values (#{userId}, #{signTime}, #{signType}, #{createTime})
+    </insert>
+
+    <!--查询本月签到天数-->
+    <select id="selectSignDay" parameterType="Int" resultType="UserSignLogEntity">
+        select * from user_sign_log where userId = #{userId};
+    </select>
+
+    <!--查询背包物品-->
+    <resultMap id="getBagInfo" type="GoodsInfoEntity">
+        <id column="goods_id" property="goodsId"></id>
+        <result column="goods_name" property="goodsName"></result>
+        <result column="goods_url" property="goodsUrl"></result>
+        <result column="goods_introduce" property="goodsIntroduce"></result>
+        <collection property="goodsUserEntities" ofType="GoodsUserEntity">
+            <id column="gid" property="gid"></id>
+            <result column="g_num" property="gNum"></result>
+        </collection>
+    </resultMap>
+    <select id="selectUserBag" parameterType="Int" resultMap="getBagInfo" >
+        select a.goods_name,b.g_num,a.goods_introduce,a.goods_url from goods_info a join goods_user b on a.goods_id = b.goods_id where b.userId = #{userId} and a.type_id = #{typeId};
+    </select>
+
+    <!--查询用户等级及经验-->
+    <resultMap id="getLevelInfo" type="LevelEntity">
+<!--        <id column="lv_id" property="lvId"></id>-->
+        <result column="level_num" property="levelNum"></result>
+        <result column="start_exp" property="startExp"></result>
+        <result column="end_exp" property="endExp"></result>
+        <collection property="userEntities" ofType="UserEntity">
+<!--            <id column="userId" property="userId"></id>-->
+            <result column="total_exp" property="totalExp"></result>
+        </collection>
+    </resultMap>
+    <select id="selectUserLevel" parameterType="Int" resultMap="getLevelInfo" >
+        select a.level_num, a.start_exp, a.end_exp, b.total_exp FROM level a join user b where b.userId=#{userId} and b.total_exp >= a.start_exp and b.total_exp &lt;= a.end_exp;
+    </select>
+
+</mapper>

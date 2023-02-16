@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="powertool.demo.Mapper.SysMapper">
+
+    <!--登录：查询特定用户名的密码-->
+    <select id="userLogin" parameterType="String" resultType="UserEntity">
+        select * from user where userName = #{userName};
+    </select>
+
+</mapper>
