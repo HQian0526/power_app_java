@@ -12,7 +12,7 @@ public class Tool {
      * @param object
      * @return
      */
-    public static   boolean judgeObjIsNull(Object object){
+    public static boolean judgeObjIsNull(Object object){
         Class clazz = object.getClass(); // 得到类对象
         Field fields[] = clazz.getDeclaredFields(); // 利用反射得到所有属性
         boolean flag = true; //定义标志flag
@@ -40,7 +40,7 @@ public class Tool {
     }
 
     /**
-     * 实体类转map
+     * 实体类转hashMap
      * @param object
      * @return
      */

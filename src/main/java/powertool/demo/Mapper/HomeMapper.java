@@ -1,6 +1,7 @@
 package powertool.demo.Mapper;
 import org.apache.ibatis.annotations.Mapper;
 import powertool.demo.Entity.LevelEntity;
+import powertool.demo.Entity.StrengthUserEntity;
 import powertool.demo.Entity.UserSignEntity;
 import powertool.demo.Entity.UserSignLogEntity;
 
@@ -30,4 +31,6 @@ public interface HomeMapper {
     //获取用户等级信息
     public List<LevelEntity> selectUserLevel(int userId);
 
+    //获取用户体力信息
+    public List<StrengthUserEntity> selectUserStrength(int userId);
 }

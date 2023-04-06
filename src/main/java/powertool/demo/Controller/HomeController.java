@@ -69,4 +69,13 @@ public class HomeController {
         ResultObj resultObj = homeService.userLevel(params.get("userId"));
         return resultObj;
     }
+
+    //体力
+    @ResponseBody
+    @RequestMapping(value = "/userStrength",method = RequestMethod.POST)
+    public ResultObj userStrength(@RequestBody Map<String, Integer> params){
+        // 将前端传入的userId进行体力查询
+        ResultObj resultObj = homeService.userStrength(params.get("userId"));
+        return resultObj;
+    }
 }

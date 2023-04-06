@@ -77,11 +77,49 @@ public class HomeImpl implements HomeService {
         if(list.size()>0){
             double startExp = list.get(0).getStartExp();//该等级初始经验
             double endExp = list.get(0).getEndExp();//该等级结束经验
-            double nowExp = list.get(0).getUserEntity().getTotalExp();//用户当前经验
+            double nowExp = list.get(0).getLevelInfo().getTotalExp();//用户当前经验
             double levelProgress = (nowExp-startExp)/(endExp-startExp);
             resHashMap = entityToMap(list.get(0));
             resHashMap.remove("userEntities");
             resHashMap.put("progress",levelProgress);
+            return new ResultObj(0,"success",resHashMap);
+        }
+        return new ResultObj(-1,"error",resHashMap);
+    }
+
+    @Override
+    public ResultObj userStrength(int userId) {
+        HashMap<String, Object> resHashMap = new HashMap<String, Object>();
+        List<StrengthUserEntity> list = homeMapper.selectUserStrength(userId);
+        if(list.size()>0){
+            if(list.get(0).getStrength()==100){
+                list.get(0).setComsumeTime(null);
+                resHashMap = entityToMap(list.get(0));
+            }else{
+                //首次体力不为100时的时间 、 现在的时间 、用户恢复1点体力的时间 、用户体力值
+                long timeLast = (list.get(0).getComsumeTime().getTime())/1000;
+                long timeNow = new Date().getTime()/1000;
+                int num = Integer.parseInt(list.get(0).getResumeTime());
+                int strength = list.get(0).getStrength();
+                //计算体力恢复到100时的时间
+                long maxTime = ((100-strength)*num)+timeLast;
+                //当现在的时间超过了体力回满的时间，说明体力满了
+                if(timeNow>=maxTime){
+                    list.get(0).setStrength(100);
+                    list.get(0).setComsumeTime(null);
+                    resHashMap = entityToMap(list.get(0));
+                }
+                //当现在的时间没超过了体力回满的时间，说明体力没到100
+                if(timeNow<maxTime){
+                    int nowStrength = (int)(100-(Math.floor((maxTime-timeNow)/num)));
+                    //计算还有多久恢复1滴体力
+                    long nextTime = (((nowStrength+1)-strength)*num)+timeLast;
+                    int needTime = (int)(nextTime-timeNow);
+                    list.get(0).setStrength(nowStrength);
+                    resHashMap = entityToMap(list.get(0));
+                    resHashMap.put("restTime",needTime);
+                }
+            }
             return new ResultObj(0,"success",resHashMap);
         }
         return new ResultObj(-1,"error",resHashMap);

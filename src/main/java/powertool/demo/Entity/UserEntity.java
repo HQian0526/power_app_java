@@ -21,7 +21,6 @@ public class UserEntity {
     private String exp;
     private byte[] headUrl;
     private String introduceMe;
-    private Integer totalExp;
 
     @Id
     @Column(name = "userId")
@@ -163,16 +162,6 @@ public class UserEntity {
         this.introduceMe = introduceMe;
     }
 
-    @Basic
-    @Column(name = "total_exp")
-    public Integer getTotalExp() {
-        return totalExp;
-    }
-
-    public void setTotalExp(Integer totalExp) {
-        this.totalExp = totalExp;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -191,13 +180,12 @@ public class UserEntity {
                 Objects.equals(identityId, that.identityId) &&
                 Objects.equals(exp, that.exp) &&
                 Arrays.equals(headUrl, that.headUrl) &&
-                Objects.equals(introduceMe, that.introduceMe) &&
-                Objects.equals(totalExp, that.totalExp);
+                Objects.equals(introduceMe, that.introduceMe);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(userId, userName, nickName, passWord, realName, sex, phone, province, city, school, identityId, exp, introduceMe, totalExp);
+        int result = Objects.hash(userId, userName, nickName, passWord, realName, sex, phone, province, city, school, identityId, exp, introduceMe);
         result = 31 * result + Arrays.hashCode(headUrl);
         return result;
     }
@@ -205,7 +193,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(int userId, String userName, String nickName, String passWord, String realName, String sex, String phone, String province, String city, String school, String identityId, String exp, byte[] headUrl, String introduceMe, Integer totalExp) {
+    public UserEntity(int userId, String userName, String nickName, String passWord, String realName, String sex, String phone, String province, String city, String school, String identityId, String exp, byte[] headUrl, String introduceMe) {
         this.userId = userId;
         this.userName = userName;
         this.nickName = nickName;
@@ -220,7 +208,6 @@ public class UserEntity {
         this.exp = exp;
         this.headUrl = headUrl;
         this.introduceMe = introduceMe;
-        this.totalExp = totalExp;
     }
 
     @Override
@@ -240,7 +227,6 @@ public class UserEntity {
                 ", exp='" + exp + '\'' +
                 ", headUrl=" + Arrays.toString(headUrl) +
                 ", introduceMe='" + introduceMe + '\'' +
-                ", totalExp=" + totalExp +
                 '}';
     }
 }

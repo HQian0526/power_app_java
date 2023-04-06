@@ -13,4 +13,7 @@ public interface HomeService {
 
     //查询用户等级
     public ResultObj userLevel(int userId);
+
+    //查询用户体力
+    public ResultObj userStrength(int userId);
 }

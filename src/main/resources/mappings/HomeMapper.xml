@@ -49,13 +49,17 @@
         <result column="level_num" property="levelNum"></result>
         <result column="start_exp" property="startExp"></result>
         <result column="end_exp" property="endExp"></result>
-        <collection property="userEntities" ofType="UserEntity">
+        <collection property="levelInfo" ofType="LevelUserEntity">
 <!--            <id column="userId" property="userId"></id>-->
             <result column="total_exp" property="totalExp"></result>
         </collection>
     </resultMap>
     <select id="selectUserLevel" parameterType="Int" resultMap="getLevelInfo" >
-        select a.level_num, a.start_exp, a.end_exp, b.total_exp FROM level a join user b where b.userId=#{userId} and b.total_exp >= a.start_exp and b.total_exp &lt;= a.end_exp;
+        select a.level_num, a.start_exp, a.end_exp, b.total_exp FROM level a join level_user b where b.userId=#{userId} and b.total_exp >= a.start_exp and b.total_exp &lt;= a.end_exp;
     </select>
 
+    <!--查询用户体力值-->
+    <select id="selectUserStrength" parameterType="Int" resultType="StrengthUserEntity">
+        select strength,comsume_time,resume_time from strength_user where userId = #{userId};
+    </select>
 </mapper>

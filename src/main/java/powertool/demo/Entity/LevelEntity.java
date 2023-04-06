@@ -11,15 +11,15 @@ public class LevelEntity {
     private Integer startExp;
     private Integer endExp;
     private String others;
-    private UserEntity userEntities;
+    private LevelUserEntity levelInfo;
 
     @Transient
-    public UserEntity getUserEntity() {
-        return userEntities;
+    public LevelUserEntity getLevelInfo() {
+        return levelInfo;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntities = userEntity;
+    public void setLevelInfo(LevelUserEntity levelInfo) {
+        this.levelInfo = levelInfo;
     }
 
     @Id
@@ -92,13 +92,13 @@ public class LevelEntity {
     public LevelEntity() {
     }
 
-    public LevelEntity(int lvId, Integer levelNum, Integer startExp, Integer endExp, String others, UserEntity userEntities) {
+    public LevelEntity(int lvId, Integer levelNum, Integer startExp, Integer endExp, String others, LevelUserEntity levelInfo) {
         this.lvId = lvId;
         this.levelNum = levelNum;
         this.startExp = startExp;
         this.endExp = endExp;
         this.others = others;
-        this.userEntities = userEntities;
+        this.levelInfo = levelInfo;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class LevelEntity {
                 ", startExp=" + startExp +
                 ", endExp=" + endExp +
                 ", others='" + others + '\'' +
-                ", userEntities=" + userEntities +
+                ", levelInfo=" + levelInfo +
                 '}';
     }
 }
